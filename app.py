@@ -1,30 +1,24 @@
+cat > app.py << 'EOF'
 import sqlite3
 import hashlib
 
-# Hardcoded credentials - SECURITY ISSUE!
+# Hardcoded credentials
 DB_PASSWORD = "admin123"
 API_KEY = "sk-1234567890abcdef"
 
-def get_user_data(username):
-    # SQL Injection vulnerability!
+def get_user(username):
+    # SQL Injection
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
-    
-    # DANGEROUS: Direct string concatenation
     query = "SELECT * FROM users WHERE username = '" + username + "'"
     cursor.execute(query)
-    
-    data = cursor.fetchall()
-    conn.close()
-    return data
+    return cursor.fetchone()
 
 def hash_password(password):
-    # Weak hashing algorithm
+    # Weak MD5
     return hashlib.md5(password.encode()).hexdigest()
 
-def process_payment(amount):
-    # No input validation
-    result = amount / 0  # Potential division by zero
-    return result
-
-unused_variable = "not used"
+def divide(a, b):
+    # No validation
+    return a / b
+EOF# Trigger review
